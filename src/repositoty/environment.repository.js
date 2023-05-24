@@ -16,4 +16,16 @@ async function getEnvironmentByIdDB(id) {
   return arrOfVall;
 }
 
-module.exports = { getAllenvironmentDB, getEnvironmentByIdDB };
+async function createEnvironmentDB(label, category, priority) {
+  const client = await pool.connect();
+  const sql = `select ${label} ${category} ${priority} from environment`;
+  const items = (await client.query(sql)).rows;
+
+  return items;
+}
+
+module.exports = {
+  getAllenvironmentDB,
+  getEnvironmentByIdDB,
+  createEnvironmentDB,
+};
