@@ -17,7 +17,7 @@ async function getEnvironmentById(id) {
 }
 
 async function createEnvironment(label, category, priority) {
-  const data = await createEnvironmentDB(label, category, priority);
+  const data = await createEnvironmentDB();
 
   const item = {
     id: data.length + 1,
@@ -26,9 +26,8 @@ async function createEnvironment(label, category, priority) {
     priority: priority,
   };
 
-  const filtered = data.filter((el) => el.label == label);
-
-  if (filtered.length > 0) throw new Error("alredy includes!");
+  const filtered = data.find((el) => el.label == label);
+  if (filtered) throw new Error("alredy includes!");
 
   data.push(item);
 

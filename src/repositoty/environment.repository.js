@@ -16,9 +16,9 @@ async function getEnvironmentByIdDB(id) {
   return arrOfVall;
 }
 
-async function createEnvironmentDB(label, category, priority) {
+async function createEnvironmentDB() {
   const client = await pool.connect();
-  const sql = `select ${label} ${category} ${priority} from environment`;
+  const sql = `select *from environment`;
   const items = (await client.query(sql)).rows;
 
   return items;
