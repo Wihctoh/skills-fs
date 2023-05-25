@@ -7,6 +7,7 @@ const {
   deleteEnv,
   patchEnv,
 } = require("../services/environment.services");
+const { isValidEnvId, isValidEnvBody } = require("../helper/validation");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
@@ -19,7 +20,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", isValidEnvBody, async (req, res) => {
   try {
     const { label, category, priority } = req.body;
     const data = await createEnv(label, category, priority);
@@ -30,7 +31,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", isValidEnvId, async (req, res) => {
   try {
     const { id } = req.params;
     const data = await getEnvById(id);
@@ -41,7 +42,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", isValidEnvBody, isValidEnvId, async (req, res) => {
   try {
     const { id } = req.params;
     const { label, category, priority } = req.body;
@@ -53,7 +54,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", isValidEnvId, async (req, res) => {
   try {
     const { id } = req.params;
     const data = await deleteEnv(id);
@@ -64,7 +65,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", isValidEnvId, async (req, res) => {
   try {
     const { id } = req.params;
     const cliendData = req.body;
