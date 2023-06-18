@@ -1,4 +1,5 @@
 const express = require("express");
+const buildResponse = require("../helper/buildResponse");
 const {
   getAllEnv,
   createEnv,
@@ -25,9 +26,9 @@ router.post("/", isValidEnvBody, async (req, res) => {
     const { label, category, priority } = req.body;
     const data = await createEnv(label, category, priority);
 
-    res.status(200).send(data);
+    buildResponse(res, 200, data);
   } catch (error) {
-    res.status(404).send(error.message);
+    rbuildResponse(res, 404, error.message);
   }
 });
 
@@ -36,9 +37,9 @@ router.get("/:id", isValidEnvId, async (req, res) => {
     const { id } = req.params;
     const data = await getEnvById(id);
 
-    res.status(200).send(data);
+    buildResponse(res, 200, data);
   } catch (error) {
-    res.status(404).send(error.message);
+    rbuildResponse(res, 404, error.message);
   }
 });
 
@@ -48,9 +49,9 @@ router.put("/:id", isValidEnvBody, isValidEnvId, async (req, res) => {
     const { label, category, priority } = req.body;
     const data = await updateEnv(id, label, category, priority);
 
-    res.status(200).send(data);
+    buildResponse(res, 200, data);
   } catch (error) {
-    res.status(404).send(error.message);
+    rbuildResponse(res, 404, error.message);
   }
 });
 
@@ -59,9 +60,9 @@ router.delete("/:id", isValidEnvId, async (req, res) => {
     const { id } = req.params;
     const data = await deleteEnv(id);
 
-    res.status(200).send(data);
+    buildResponse(res, 200, data);
   } catch (error) {
-    res.status(404).send(error.message);
+    rbuildResponse(res, 404, error.message);
   }
 });
 
@@ -71,9 +72,9 @@ router.patch("/:id", isValidEnvId, async (req, res) => {
     const cliendData = req.body;
     const data = await patchEnv(id, cliendData);
 
-    res.status(200).send(data);
+    buildResponse(res, 200, data);
   } catch (error) {
-    res.status(404).send(error.message);
+    rbuildResponse(res, 404, error.message);
   }
 });
 
